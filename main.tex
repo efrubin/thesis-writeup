@@ -1,0 +1,123 @@
+\documentclass[preprint1]{aastex}
+\usepackage[printonlyused]{acronym}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{verbatim}
+\usepackage{mathtools}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage{solarized-light}
+\usepackage[caption=false]{subfig}
+
+\newcommand\pcp{\mbox{ pc}^{-3}}
+\newcommand\Msun{\; M_\odot}
+\newcommand\Myr{\mbox{ Myr}}
+\newcommand\Gyr{\mbox{ Gyr}}
+\newcommand\pc{\mbox{ pc}}
+\newcommand\gram{\mbox{ g}}
+\newcommand\nbody{\texttt{NBody6++GPU }}
+
+
+\numberwithin{equation}{section}
+\setkeys{Gin}{width=\linewidth,totalheight=\textheight,keepaspectratio}
+\graphicspath{{graphics/}}
+
+\title{}
+\author{Elias Rubin}
+\begin{document}
+% running out of time because black hole mass is the seed mass 
+% at redshift above 7 we already see MBh around a billion solar masses
+% need half Gyr tops.  So M seed must be ~10^4-10^5
+% Lbh, quasar is some constant times black hole mass
+% hence there is an observational constraint
+\section{Scientific Motivation} \label{Intro}
+Massive stars are believed to form the seed masses for \acp{IMBH} and \acp{SMBH} \citep{2003Bromm, 2013Hosokawa}. Observations of high redshift ($z \ge 6$) quasars place a constraint on the time allowed for \acp{IMBH} and \acp{SMBH} to form.  To explain \acp{SMBH} with masses over $10^9 \Msun$ forming under $1 \Gyr$, we require massive stars with masses around $10^4 - 10^5 \Msun$ to form within a few $\Myr$. These massive stars would then collapse due to general relativistic instability \citep{1964Chandrasekhar} into black holes which continue to accrete mass from their surroundings at the Eddington rate, as well as by continued mergers \citep{2015Katz, 2016Latif}. These \acp{IMBH} and \acp{SMBH} could result in powering many of the bright quasars we observe at high redshift.
+
+In this work we examine the possibility of massive star formation by repeated collision in globular clusters and ultracompact dwarf galaxies. Sufficiently dense clusters can be highly collisional, and provide for the possibility of runaway growth. As a single star continues to increase in mass and stellar radius, it increases the likelihood of further collisions, and provides an avenue for runaway star growth \citep{2015Katz}. This mechanism for black hole formation is one of three that are commonly considered, the other two being core collapse black holes which typically are around $10 \Msun$, and the direct collapse of gaseous clouds, as described in \citet{2003Bromm} and \citet{2016Latif}. We follow the work of \citet{2004SPZ} and others by performing direct N-Body simulations of dense star clusters.
+
+Core collapse black holes are believed to be too small to have much infuence on quasar abundance, as the seed mass is insufficient to form a $10^9 \Msun$ black hole at redshifts above $z = 7$.  Although direct collapse black holes have been investigated as a promising path to \acp{SMBH} formation, \citet{2016Latif} and others raise questions about the viability of that pathway because of significant radiation feedback effects which can reduce the rate of mass accretion below the $0.1 \Msun/\mbox{yr}$ required to develop sufficiently large seed mass black holes.
+
+A time constraint on the formation of our seed mass is the main-sequence lifetime of the most massive stars in the cluster. For a typical initial mass function with a maximum mass of $\sim100 \Msun$, this time is about $3 \Myr$, afterwards stellar evolution effects such as supernovae and stellar winds can be expected to prevent runaway \citep{2002SPZ, 2016Latif}.  We also expect that the largest stars initially dominate the set of stars that do ultimately form runaways, again based on their larger mass and radius increasing the likelihood of collision.
+
+\citet{2002SPZ} suggests runaway collisions as a pathway to \ac{IMBH} formation, with runaway masses at approximately $0.1\%$ of the total cluster mass in the clusters simulated.  \citet{2004SPZ} 
+
+\textbf{Should observational constraints or other literature be discussed in this section?  What about more detail about alternative \ac{SMBH} pathways like in Latif?}
+
+\textbf{Cite for relationship between quasar luminosity and black hole mass?}
+
+\section{Model} \label{Model}
+\textbf{Questions to answer:
+What are the observed bodies that influence model?  May need some sources for this.
+Put in a table/grid of all parameters surveyed.}
+In their investigation of collision clusters MGG-9 and MGG-11, \citet{2004SPZ} identify two factors about collisional clusters that can lead to supermassive star formation: concentration parameter $w$ and dynamical time $t_{\mathrm{df}}$, defined as follows:
+
+\begin{subequations}
+    \begin{align*}
+    w &= \log{\frac{R_t}{R_c}} \\
+    t_{\mathrm{df}} &= \frac{\langle m \rangle}{100 \Msun} \frac{0.138N}{\ln{0.11M/100\Msun}}\left(\frac{R^3}{GM}\right)^{1/2}
+    \end{align*}
+\end{subequations} 
+
+\textbf{Should put definitions of each parameter?}
+
+\textbf{}
+
+
+\section{Simulation Methods} \label{Methods}
+
+\textbf{Does anything else belong in this section?  A discussion of units, important cluster properties, more detail on numerical methods?}
+
+We perform direct N-Body simulations over a range of cluster parameters varying in total mass, half-mass radius, and concentration.  We use the \texttt{McLuster} software of \citet{2011Kupper} to generate initial conditions and the \nbody software of \citet{2015Wang} to evolve the clusters. We also describe some modifications to the \nbody software made in attempts to accelerate simulations.
+
+\textbf{What is the integrator scheme; how does it work?  What are the numerical methods used?}
+The \nbody integrator uses a direct fourth-order Hermite integration method, as well as a hierarchical block step \citep[][and refs within]{2015Wang}. This is a kind of adaptive timestep system. Instead of evaluating all particles at every timestep, particles are binned into quantized groups, and only those particles at an integer multiple of their timestep are integrated. This speeds up the integration of slow moving particles, while still allowing for accuracy for more extreme particles. The code uses the neighbor scheme of \citet{1973Ahmad} to speed up the integration further by separating into the more economical regular force (forces on a body generated by bodies outside a neighbor radius) and irregular force (forces generated by bodies within a neighbor radius). In \nbody, the regular force computations are done on the GPU, and irregular force computations are done on the CPU with the AVX/SSE library of \citet{2012Nitadori}.
+
+The distinguishing feature of \nbody is its use of \citet{Kusta1965} (KS) regularization to generate solutions for binaries, triples, and multiple systems with high levels of accuracy. Although \nbody uses MPI parallelization to scale across multiple compute nodes, there are some sequential bottlenecks including KS regularization. In our experiments, we experienced no gain from using multiple nodes, and it's possible that the KS regularization method was responsible. We touch on this further in section~\ref{conclusions}.
+
+We performed our simulations on the \texttt{Tiger2} GPU cluster at Princeton University. Most experiments were performed on one compute node which each use four NVIDIA Tesla P100 GPUs and 2.4 GHz Broadwell processors parallelized with OpenMP.
+
+\textbf{What are the initial conditions and how are they generated?}
+We generate our initial conditions using the \texttt{McLuster} software of \citet{2011Kupper}. For the initial distribution of positions and velocities, we use a \citet{1966King} profile, varying half-mass radius and concentration.  We use the initial mass function of \citet{2001Kroupa} which degenerates to a Saltpeter IMF above $0.5 \Msun$.  For our simulations with cluster mass $2 \times 10^5 \Msun$, we use a mass range of $1$ to $100 \Msun$.  For cluster mass $6 \times 10^5 \Msun$, we increase the lower bound to $3.3 \Msun$.  For cluster mass $2 \times 10^6 \Msun$, we use a lower bound of $13 \Msun$ and an upper bound of $120 \Msun$.  We do not apply an external tidal field, initialize primordial binaries, or apply primordial mass segregation. 
+
+\textbf{What are the boundary and escape conditions?}
+We use an open boundary condition so particles that do escape do not return to the simulation. Our escape condition is a distance from center of greater than twice the tidal radius. Both of these conditions remain uniform over all of our simulations.
+
+\textbf{What is the merger scheme?}
+The default merger criteria in \nbody follows that of \citet{1992Kochanek}.  For a two-body system with pericenter $R_p$, the bodies are merged if
+
+$$ \frac{R_{p}}{R_{1}} \leq 1.3 \times (\frac{M_T}{2M_1})^{1/3} $$.
+
+This merger scheme is conservative.  In the case of a central mass with $m = 200 \Msun$ (a typical case after a couple of mergers) and an additional mass with $m = 1 \Msun$, and using $r_{\mathrm{central}} = (\frac{m}{\Msun})^{0.55}$, we would not merge the two stars unless they had a pericenter distance smaller than $20$ stellar radii, or a deviation of only about $3\%$ from the radius of the central mass.
+
+In an effort to increase the speed of our simulations by spending less time in KS regularization for insignificant bodies, we experimented with short-circuiting this merger scheme for pairs meeting certain conditions.  We experimented with merging binaries where one member was $5$ or $10$ times larger than the other, provided the pericenter was smaller than $10 r_\mathrm{large}$ (in the more conservative trial) and $100 r_\mathrm{large}$ in the more liberal one.  We avoided merging with the central mass, but did want to reduce the number of KS pairs for peripheral bodies. We found that the overall runtime was not affected significantly by this change to the merger scheme. Simulation results appeared robust to the factor $10$ difference, but were affected by the factor $100$ difference.  We tested changes to our merger scheme at approximately the transition between collisional and non-collisional clusters: a mass of $2 \times 10^5 \Msun$, a concentration of $2$, and a half-mass radius of $2.9 \pc$.
+
+\textbf{How was verification performed?}
+\citet{2009Anders, 2012Anders} perform comparisons between \texttt{NBody4} of \citet{1999Aarseth} and \texttt{Starlab} environment.  In order to verify our installation of \nbody we repeated the tests from \citet{2009Anders}.  We used \texttt{McLuster} to generate similar initial conditions to the ones used in their test. Our verification clusters consist of 1024 $1 \Msun$ stars, distributed in a Plummer profile with initial half-mass radius $0.5 \pc$.  We performed test runs with and without stellar evolution mass loss, as \nbody requires stellar evolution mass loss to perform mergers.
+
+\textbf{What other issues with original code?  How were they resolved?}
+We had significant difficulty running more collisional clusters to completion.  We found that clusters with many collisions stretched the limits of default \nbody parameters.  Among other issues, we encountered a persistent problem where runs would stop progressing during a KS regularization.  We settled on a two-part workaround for this problem: first by reducing the KS step size which seemed to forestall these failures at the cost of some additional compute time and second by simply restarting runs once they stopped progressing. 
+
+We were unable to get \nbody's internal restart module to function in our environment, so our restart method required building a tool to parse the checkpoint data and create initial conditions for a fresh simulation.  The raw checkpoint data does not perfectly reflect the state of the system because it contains duplicate bodies when binaries, triples, quads, and chains are involved. We implemented an additional heuristic in our restart code to remove spurious binaries and other multiples, leaving only the constituent bodies in the new initial conditions.
+
+\section{Results} \label{Results}
+
+\textbf{What clusters had runaway central masses?}
+
+\textbf{What fraction of the total cluster mass did the runaway achieve?  How long didit take?}
+
+\textbf{What was the rate of growth?  Did this vary with cluster parameters?  What about the shape of the growth curves?}
+
+\textbf{Any clusters that were too expensive to simulate or didn't work for some other reason?}
+
+\textbf{What other observed phenomena?  Did any/all clusters experience mass loss?  What happened with core radius?  Was core collapse correlated with larger central mass?}
+
+
+
+\bibliographystyle{apj}
+\bibliography{ref}
+\acrodef{SMBH}{supermassive black hole}
+\acrodef{IMBH}{intermediate-mass black hole}
+\end{document}

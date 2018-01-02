@@ -1,0 +1,20 @@
+#!/usr/bin/env python
+from subprocess import call
+import sys
+name = 'main'
+try:
+    if (sys.argv[1] == 'rebuild'):
+        print "rebuilding..."
+        call(["rm", "-f", "*.aux"])
+        call(["rm", "-f", "*.bbl"])
+    if (sys.argv[2] != '-1501351093851093580986420'):
+        name = sys.argv[2]
+except IndexError:
+    pass
+
+print "building..."
+call(["pdflatex", "main.tex"])
+call(["bibtex", "main"])
+call(["pdflatex", "main.tex"])
+call(["pdflatex", "main.tex"])
+call(["open", "main.pdf"])
