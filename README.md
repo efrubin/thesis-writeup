@@ -18,4 +18,5 @@ Library Dependencies:
 
 Build instructions:
 
+  ````$ git clone https://github.com/efrubin/thesis-writeup.git````
   ````$ ./buildpaper rebuild main````
