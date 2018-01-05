@@ -15,12 +15,12 @@
 
 % Load report class
 \LoadClass{report}
-
 % Load packages
 \RequirePackage[T1]{fontenc}
 \RequirePackage[margin=1in,inner=1.5in]{geometry}
 \RequirePackage{setspace}
 \RequirePackage{natbib}
+\RequirePackage{xcolor}
 
 % Provide commands for user input
 \long\def\title#1{\def\@title{#1}}
@@ -72,7 +72,7 @@
   \@author \\[\stretch{1}] %
   \@submissiontext \\[\stretch{1}] %
   \@acceptancetext \\[\stretch{1}] %
-  Advisers: \@adviser \\[\stretch{1}] %
+  Adviser: \@adviser \\[\stretch{1}] %
   \@date \\
 }}
 
@@ -132,5 +132,6 @@
   \tableofcontents \clearpage %
   \pagenumbering{arabic}
 }
+
 
 \endinput
