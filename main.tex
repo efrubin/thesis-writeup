@@ -57,10 +57,11 @@ Put in a table/grid of all parameters surveyed.}
 In their investigation of collision clusters MGG-9 and MGG-11, \citet{2004SPZ} identify two factors about collisional clusters that can lead to supermassive star formation: concentration parameter $w$ and dynamical time $t_{\mathrm{df}}$, defined as follows:
 
 \begin{subequations}
-    \begin{align*}
+    \begin{align}
     w &= \log{\frac{R_t}{R_c}} \\
     t_{\mathrm{df}} &= \frac{\langle m \rangle}{100 \Msun} \frac{0.138N}{\ln{0.11M/100\Msun}}\left(\frac{R^3}{GM}\right)^{1/2}
-    \end{align*}
+    \end{align}
+    \label{eqn:tdf}
 \end{subequations} 
 
 \textbf{Should put definitions of each parameter?}
@@ -140,7 +141,13 @@ The \nbody employs the neighbor scheme of \citet{1973Ahmad} in conjunction with 
 
 The distinguishing feature of the \texttt{NBODY} family is their use of \citet{1965Kusta} (KS) regularization to generate solutions for binaries, triples, and multiple systems with high levels of accuracy.  This treatment for close encounters adds a good deal of complexity to the implementation, but the scheme essentially works by searching for bodies closer to each other than $r_{\mathrm{min}}$, replacing them in the next integration step by their center of mass, and integrating them separately at a smaller timescale and in a different reference frame. This is useful to avoid numerical truncation errors caused by bodies being too close in the originally reference frame. The KS regularization is extended to multiple systems and adds perturbing bodies using a variant of the \citet{1973Ahmad} neighbor scheme. KS pairs and multiples are terminated if the distance between the bodies exceeds $r_{\mathrm{min}}$ or if the bodies collide, in which case they are merged.  We discuss the merger criteria and method later in this section.
 
-Although \nbody uses MPI parallelization to scale across multiple compute nodes, there are some sequential bottlenecks including KS regularization. In our experiments, we experienced no gain from using multiple nodes, and it's possible that the KS regularization method was responsible. We touch on this further in section~\ref{conclusions}.
+Although \nbody uses MPI parallelization to scale across multiple compute nodes, there are some sequential bottlenecks including KS regularization. Figure~\ref{fig:parallelperf} shows the results of our tests scaling to multiple nodes and compares to the theoretical limit.  We also performed profiling which indicated that the bulk of the time was spent in KS regularization. Because we didn't achieve gains from horizontal scaling, we were not able to take full advantage of the computing power available to us.
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{parallelperformance}
+\caption{This figure shows the results of our parallel test runs and compares to the theoretical limit.  The shaded region indicates a range of speedups that we might expect depending on the fraction of parallelizable work following Amdahl's law.  That actual performance was even worse is a result of communication overhead. For all of our parallelization test runs we used identical clusters of 4000 bodies with total mass of 13k $\Msun$ and following a \citet{1966King} profile with concentration 2 and half-mass radius $0.5 \pc$.  Each cluster was evolved to 3 Myr.}
+\label{fig:parallelperf}
+\end{figure}
 
 We performed our simulations on the \texttt{Tiger2} GPU cluster at Princeton University. Most experiments were performed on one compute node which each use four NVIDIA Tesla P100 GPUs and 2.4 GHz Broadwell processors parallelized with OpenMP.
 
@@ -212,7 +219,7 @@ We were unable to get \nbody's internal restart module to function in our enviro
 
 \begin{figure}
     \includegraphics[width=20cm]{kplot}
-    \caption{Plot of clusters with their parameter $K$}
+    \caption{The x-axis is the dynamical friction time corresponding to each cluster from equation~\ref{eqn:tdf}.  The y-axis is the concentration parameter.  The clusters are colored by the log of $\mathrm{min}(M_{\mathrm{max, proj}}/M_{\mathrm{total}}, 1)$, where $M_{\mathrm{max, proj}} = M_{\mathrm{max}, 0}e^{3 \cdot K}$. }
     \label{fig:KPlot}
 \end{figure}
 \textbf{What clusters had runaway central masses?}
@@ -225,7 +232,7 @@ We can solve for $K$ at the end of a given run by isolating it from equation~\re
 \begin{equation}
 K = \frac{\ln M_{\mathrm{max}}(t_{\mathrm{end}}) - \ln M_{0}}{t_{\mathrm{end}}}
 \end{equation}
-We can then use $K$ to make an estimate for the mass fraction of the cluster at $t = 3 \Myr$.  If the projected final mass fraction is large, we suggest the cluster is a candidate to have a runaway central mass. Figure~\ref{fig:Kplot} shows each run plotted with its projected final mass fraction.  We cap this fraction at $1$.
+We can then use $K$ to make an estimate for the mass fraction of the cluster at $t = 3 \Myr$.  If the projected final mass fraction is large, we suggest the cluster is a candidate to have a runaway central mass. Figure~\ref{fig:Kplot} shows each run plotted with its projected final mass fraction.  We cap the final fraction at $1$.
 
 \textbf{What fraction of the total cluster mass did the runaway achieve?  How long didit take?}
 
