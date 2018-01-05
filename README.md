@@ -21,3 +21,7 @@ Build instructions:
   ````$ git clone https://github.com/efrubin/thesis-writeup.git````
   
   ````$ ./buildpaper rebuild main````
+
+To get updates, go to the thesis-writeup directory and use
+
+  ````$ git pull````
