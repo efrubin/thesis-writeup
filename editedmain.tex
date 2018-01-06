@@ -36,7 +36,10 @@
 % need half Gyr tops.  So M seed must be ~10^4-10^5
 % Lbh, quasar is some constant times black hole mass
 % hence there is an observational constraint
+
 \section{Scientific Motivation} \label{Intro}
+
+
 Observations of high redshift ($z \ge 6$) quasars hosted by supermassive black holes (SMBHs) 
 of masses in excess of a billion solar masses 
 present a major theoretical challenge.
@@ -94,9 +97,12 @@ These SMBHs will anchor the centers of massive galaxies
 and grow primarily by accreting gas from their surroundings at rates probably fairly close to the Eddington rate
 to become the observed billion solar mass SMBHs powering the quasars at $z>6$.
 Occasionally, mergers of galaxies may also help somewhat grow the SMBHs.
-\textbf{Should observational constraints or other literature be discussed in this section?  What about more detail about alternative \ac{SMBH} pathways like in Latif?}
 
-\textbf{Cite for relationship between quasar luminosity and black hole mass?}
+
+%\citet{2002SPZ} suggests runaway collisions as a pathway to \ac{IMBH} formation, with runaway masses at approximately $0.1\%$ of the total cluster mass in the clusters simulated.  \citet{2004SPZ} 
+%\textbf{Should observational constraints or other literature be discussed in this section?  What about more detail about alternative \ac{SMBH} pathways like in Latif?}
+%\textbf{Cite for relationship between quasar luminosity and black hole mass?}
+
 
 \section{Parameter Space of Globular Clusters}
 \label{Model}
@@ -112,9 +118,11 @@ The stellar dynamics in the context of runaway stellar collisions,
 right after the formation of this old GC population, is the subject of our study.
 
 
-The overall picture of a runaway collision proceeds approximately in the following way after the formation of a GC.
+The overall picture of a runaway collision proceeds approximately in the following way
+after the formation of a GC.
 Initially, the stellar distribution is unsegregated in terms of stellar mass.
-Subsequently, gravitational interactions between stars, a process called dynamical friction, cause more massive stars to lose
+Subsequently, gravitational interactions between stars, a process called dynamical friction,
+cause more massive stars to lose
 kinetic energy to gradually towards the center of the GC, with lighter stars moving outwards in compensation.
 The ability of allowing massive stars to move to the central region is critical, because
 massive stars have the largest collision cross sections and the central region is densest.
@@ -130,61 +138,27 @@ In their investigation of collision in
 UCDs MGG-9 and MGG-11, \citet{2004SPZ} identify two factors about collisional clusters that can lead to supermassive star formation: 
 concentration parameter $w$ and dynamical time $t_{\mathrm{df}}$.
 For a GC with a King profile, we have three key parameters:
-the concentration parameter $c$, total mass $M$ and $t_{df}$, 
-with $c$ and $t_{df}$ defined as 
+the concentration parameter $c$, total mass $M$ and $t_{DF}$, 
+with $c$ and $t_{DF}$ defined as 
 
 \begin{subequations}
-    \begin{align}
+    \begin{align*}
     c &\equiv \log{\frac{R_t}{R_c}} \\
     t_{\mathrm{df}} &\equiv \frac{\langle m \rangle}{M_*} \frac{0.138N}{\ln{0.11M/100\Msun}}\left(\frac{R^3}{GM}\right)^{1/2}
-    \end{align}
-    \label{eqn:tdf}
+    \end{align*}
 \end{subequations} 
 \noindent
 where $M_*$ is the mass of massive stars that migrate inward via dynamic friction;
 we choose $M_*=100\msun$ to define $t_{df}$.
 
- \citet{1966King} shows how the parameter $c$ is related to the potential of the cluster.  For a system in virial equilibrium and stars of unit mass, the energy of a star is given by
-\begin{equation}
-    E = \frac{1}{2}v^2 + V(r),
-\end{equation}
-and the velocity is distributed with a Fokker-Planck distribution such that at the center of the cluster, the velocity is given by
-\begin{equation}
-    f(0,v) = k [\exp(-j^2v^2) - \exp(-j^2v^{2}_{e}),
-\end{equation}
-where $1/j$ is the velocity dispersion and $v_{e}$ is the cluster escape velocity.  At the tidal radius, a particle becomes unbound from the cluster even at $v_{e} = 0$, hence, $V(r_{t}) = 0$.  As particles with positive energy escape the cluster, we see that the escape velocity is given as a function of $r$, such that
-\begin{equation}
-v_{e}^{2} = -2V(r).
-\end{equation}
-We see that the distribution function can be extended over $r$ and so
-\begin{equation}
-    f(r, v) = k[\exp\{-2j^2(V(r)-V(0))\}][\exp[-j^2v^2] - \exp\{-2j^2(V(r))\}.
-\end{equation}
-The density $\rho$ is given by the integral of $f(r,v)$ over $v$, that is
-\begin{equation}
-    \rho = \int_{0}^{v_{e}} f(r,v) 4 \pi v^2 \mathrm{d}v,
-    \label{eqn:kingrho}
-\end{equation}
-and so we see $\rho$ is a function of $V(r)$, related by the Poisson equation,
-\begin{equation}
-\frac{\mathrm{d}^2V}{\mathrm{d}r^2} + \frac{2}{r}\frac{\mathrm{d}V}{\mathrm{d}r} = 4 \pi G \rho.
-\end{equation}
-Letting $W = -2j^2V$ and $R = r/r_c$, we can substitute the above to
-\begin{equation}
-\frac{\mathrm{d}^2W}{\mathrm{d}R^2} + \frac{2}{R}\frac{\mathrm{d}W}{\mathrm{d}R} = -8 \pi G j^2 r_{c}^2 \rho,
-\label{eqn:kingpoisson}
-\end{equation}
-where $r_{c}$ is the core radius, which \citet{1966King} defines as
-\begin{equation}
-r_{c}^{2} = \frac{9}{8 \pi G j^2 \rho_0},
-\end{equation}
-from an empirical result. Substituting equation~\ref{eqn:kingrho} into equation~\ref{eqn:kingpoisson} and making the substitions for $R$ and $W$ sets up sets up an integral equation which can be numerically solved for $r_{t}$ by setting $W$ (and hence $V$) $= 0$.  Because the concentration is given by $c = \log r_{t}/r_{c}$, we can see that for a given core radius, higher concentrations will have a greater tidal radius and therefore a deeper potential well.
 
 We stress that all three parameters are important. In particular,
 the collision rate per time that determines the outcome 
-depends not only on $c$ and $t_{df}$ but also on $M$.
+depends not only on $c$ and $t_{DF}$ but also on $M$.
 
-We survey the parameter space of $c$, $t_{df}$ and $M$, in part guided by observations.
+{\bf you need to add some text about the King profile and how $C$ is related to the gravitational potential well depth.}
+ 
+We survey the parameter space of $C$, $t_{DF}$ and $M$, in part guided by observations.
 But we imagine that some of the densest and most massive globular clusters may have disappeared from 
 our sight to have integrated into larger stellar systems that are no longer recognized as GCs today.
 Observationally, the GCs and ultra compact dwarf galaxies (UCDs), which are essentially more massive cousins
@@ -194,6 +168,10 @@ falling in the overall range of $c\sim 1-3$ \citep[e.g.,][]{2007Evstigneeva}.
 We thus sample the range $1-3$ for the parameter $c$.
 The parameter $t_{DF}$ is a function of GC mass $M$, half-mass radius $R$ and the mass of the star in question $<m>$
 (see equation above).
+
+
+
+
 
 
 \section{Simulation Methods} \label{Methods}
@@ -268,27 +246,14 @@ The \nbody employs the neighbor scheme of \citet{1973Ahmad} in conjunction with 
 
 The distinguishing feature of the \texttt{NBODY} family is their use of \citet{1965Kusta} (KS) regularization to generate solutions for binaries, triples, and multiple systems with high levels of accuracy.  This treatment for close encounters adds a good deal of complexity to the implementation, but the scheme essentially works by searching for bodies closer to each other than $r_{\mathrm{min}}$, replacing them in the next integration step by their center of mass, and integrating them separately at a smaller timescale and in a different reference frame. This is useful to avoid numerical truncation errors caused by bodies being too close in the originally reference frame. The KS regularization is extended to multiple systems and adds perturbing bodies using a variant of the \citet{1973Ahmad} neighbor scheme. KS pairs and multiples are terminated if the distance between the bodies exceeds $r_{\mathrm{min}}$ or if the bodies collide, in which case they are merged.  We discuss the merger criteria and method later in this section.
 
-Although \nbody uses MPI parallelization to scale across multiple compute nodes, there are some sequential bottlenecks including KS regularization. Figure~\ref{fig:parallelperf} shows the results of our tests scaling to multiple nodes and compares to the theoretical limit.  We also performed profiling which indicated that the bulk of the time was spent in KS regularization. Because we didn't achieve gains from horizontal scaling, we were not able to take full advantage of the computing power available to us.
-\begin{figure}
-\centering
-\includegraphics[width=\textwidth]{parallelperformance}
-\caption{This figure shows the results of our parallel test runs and compares to the theoretical limit.  The shaded region indicates a range of speedups that we might expect depending on the fraction of parallelizable work following Amdahl's law.  That actual performance was even worse is a result of communication overhead. For all of our parallelization test runs we used identical clusters of 4000 bodies with total mass of 13k $\Msun$ and following a \citet{1966King} profile with concentration 2 and half-mass radius $0.5 \pc$.  Each cluster was evolved to 3 Myr.}
-\label{fig:parallelperf}
-\end{figure}
+Although \nbody uses MPI parallelization to scale across multiple compute nodes, there are some sequential bottlenecks including KS regularization. In our experiments, we experienced no gain from using multiple nodes, and it's possible that the KS regularization method was responsible. We touch on this further in section~\ref{conclusions}.
 
 We performed our simulations on the \texttt{Tiger2} GPU cluster at Princeton University. Most experiments were performed on one compute node which each use four NVIDIA Tesla P100 GPUs and 2.4 GHz Broadwell processors parallelized with OpenMP.
 
 \subsection{Initial and Boundary Conditions}
-We generate our initial conditions using the \texttt{McLuster} software of \citet{2011Kupper}. For the initial distribution of positions and velocities, we use a \citet{1966King} profile, varying half-mass radius and concentration.  We use the initial mass function of \citet{2001Kroupa} which degenerates to a Saltpeter IMF above $0.5 \Msun$.  For our simulations with cluster mass $2 \times 10^5 \Msun$, we use a mass range of $1$ to $100 \Msun$.  For cluster mass $6 \times 10^5 \Msun$, we increase the lower bound to $3.3 \Msun$.  For cluster mass $2 \times 10^6 \Msun$, we use a lower bound of $13 \Msun$ and an upper bound of $120 \Msun$.  We do not apply an external tidal field, initialize primordial binaries, or apply primordial mass segregation. Figure~\ref{fig:icpanel} shows the initial density profiles for each run.
+We generate our initial conditions using the \texttt{McLuster} software of \citet{2011Kupper}. For the initial distribution of positions and velocities, we use a \citet{1966King} profile, varying half-mass radius and concentration.  We use the initial mass function of \citet{2001Kroupa} which degenerates to a Saltpeter IMF above $0.5 \Msun$.  For our simulations with cluster mass $2 \times 10^5 \Msun$, we use a mass range of $1$ to $100 \Msun$.  For cluster mass $6 \times 10^5 \Msun$, we increase the lower bound to $3.3 \Msun$.  For cluster mass $2 \times 10^6 \Msun$, we use a lower bound of $13 \Msun$ and an upper bound of $120 \Msun$.  We do not apply an external tidal field, initialize primordial binaries, or apply primordial mass segregation. 
 
 We use an open boundary condition so particles that do escape do not return to the simulation. Our escape condition is a distance from center of greater than twice the tidal radius. Both of these conditions remain uniform over all of our simulations.
-
-\begin{figure}
-\centering
-\makebox[\textwidth]{\includegraphics[width=\paperwidth]{icpanel}}
-\caption{Initial density profile for each run.  We computed the density profiles by binning stars in groups of 32 and taking the average mass over the spherical volume they occupy, so the noise in the density curves is because without primordial mass segregation more massive stars can have a strong influence on the total mass within their bin.}
-\label{fig:icpanel}
-\end{figure}
 
 \subsection{Merger Scheme}
 The default merger criteria in \nbody follows that of \citet{1992Kochanek}.  For a two-body system with pericenter $R_p$, the bodies are merged if
@@ -352,53 +317,12 @@ We were unable to get \nbody's internal restart module to function in our enviro
 \end{sidewaysfigure}
 
 \begin{figure}
-    \centering
-    \includegraphics[width=1.3\textwidth]{kplot}
-    \caption{The x-axis is the dynamical friction time corresponding to each cluster from equation~\ref{eqn:tdf}.  The y-axis is the concentration parameter.  The clusters are colored by the log of $\mathrm{min}(M_{\mathrm{max, proj}}/M_{\mathrm{total}}, 1)$, where $M_{\mathrm{max, proj}} = M_{\mathrm{max}, 0}e^{3 \cdot K}$, and the cirlce sizes correspond to the initial mass of the cluster.}
-    \label{fig:Kplot}
+    \includegraphics[width=20cm]{kplot}
+    \caption{Plot of clusters with their parameter $K$}
+    \label{fig:KPlot}
 \end{figure}
-
-\begin{table}
-\begin{center}
-\resizebox{0.8\columnwidth}{!}{%
-    \begin{tabular}{l l l l l l l }
-    \hline \hline \\
-    Run & $w$ & $M_{\mathrm{cluster},0}$ & $R_{\mathrm{half}}$ & $t_{\mathrm{df}}$ & $t_{\mathrm{end}}$ & $M_{\mathrm{central, end}}$ \\
-    (units) & - & $\msun$ & $\pc$ & $\Myr$ & $\Myr$ & $\Msun$ \\
-    \hline
-        \sc{run64k-w2-m200-r1.5-2} & 2 & 2.0e+05 & 1.5 & 4.37 & 0.01 & 268.5 \\
-        \sc{run64k-w3-m600-r1.5} & 3 & 6.0e+05 & 1.5 & 6.29 & 0.01 & 829.9 \\
-        \sc{run64k-w2-m200-r1.5-3} & 2 & 2.0e+05 & 1.5 & 4.37 & 0.04 & 703.2 \\
-        \sc{run64k-w3-m600-r2.9} & 3 & 6.0e+05 & 2.9 & 16.90 & 0.05 & 183.0 \\
-        \sc{run64k-w3-m2000-r2.9} & 3 & 2.0e+06 & 2.9 & 26.03 & 0.06 & 1021.0 \\
-        \sc{run64k-w2.5-m200-r1.5} & 2.5 & 2.0e+05 & 1.5 & 4.37 & 0.11 & 916.6 \\
-        \sc{run64k-w1.5-m200-r1.5} & 1.5 & 2.0e+05 & 1.5 & 4.37 & 0.14 & 2548.8 \\
-        \sc{run64k-w2-m200-r1.5} & 2 & 2.0e+05 & 1.5 & 4.37 & 0.32 & 2770.8 \\
-        \sc{run64k-w3-m200-r1.5} & 3 & 2.0e+05 & 1.5 & 4.37 & 0.38 & 429.7 \\
-        \sc{run64k-w2.5-m600-r2.9} & 2.5 & 6.0e+05 & 2.9 & 16.90 & 0.51 & 163.8 \\
-        \sc{run64k-w2-m600-r2.9} & 2 & 6.0e+05 & 2.9 & 16.90 & 0.72 & 770.8 \\
-        \sc{run64k-w1.5-m200-r2.9} & 1.5 & 2.0e+05 & 2.9 & 11.75 & 0.82 & 1002.1 \\
-        \sc{run64k-w2.5-m200-r2.9} & 2.5 & 2.0e+05 & 2.9 & 11.75 & 0.96 & 151.5 \\
-        \sc{run64k-w2-m2000-r5.8} & 2 & 2.0e+06 & 5.8 & 73.62 & 1.09 & 2388.0 \\
-        \sc{run64k-w1-m200-r2.9} & 1 & 2.0e+05 & 2.9 & 11.75 & 1.20 & 1082.9 \\
-        \sc{run64k-w2-m200-r2.9-3} & 2 & 2.0e+05 & 2.9 & 11.75 & 1.26 & 1398.2 \\
-        \sc{run64k-w2-m200-r2.9-2} & 2 & 2.0e+05 & 2.9 & 11.75 & 2.96 & 308.0 \\
-        \sc{run64k-w2.5-m200-r5.8} & 2.5 & 2.0e+05 & 5.8 & 33.22 & 3.00 & 121.1 \\
-        \sc{run64k-w1-m200-r5.8} & 1 & 2.0e+05 & 5.8 & 33.22 & 3.92 & 844.5 \\
-        \sc{run64k-w2.5-m600-r5.8} & 2.5 & 6.0e+05 & 5.8 & 47.80 & 4.27 & 315.8 \\
-        \sc{run64k-w1.5-m600-r5.8} & 1.5 & 6.0e+05 & 5.8 & 47.80 & 4.35 & 1320.9 \\
-        \sc{run64k-w2-m600-r5.8} & 2 & 6.0e+05 & 5.8 & 47.80 & 5.48 & 3204.3 \\
-        \sc{run64k-w3-m200-r2.9} & 3 & 2.0e+05 & 2.9 & 11.75 & 5.98 & 941.0 \\
-        \sc{run64k-w1.5-m200-r5.8} & 1.5 & 2.0e+05 & 5.8 & 33.22 & 8.68 &  12.8 \\
-        \end{tabular}%
-        }
-    \caption{Table of each full run (64k bodies), where $w$ is the King concentration,  $M_{\mathrm{cluster},0}$ is the initial cluster total mass,  $R_{\mathrm{half}}$ is the initial half-mass radius,  $t_{\mathrm{df}}$ is the dynamical friction time, $t_{\mathrm{end}}$ is the simulation end time, and  $M_{\mathrm{central, end}}$ is the ending central mass size.}
-    \label{table:runs}
-\end{center}
-\end{table}
-
-\subsection{Determining Runaway Candidates}
-We performed simulations of 24 clusters sampling the parameter space of concentration, cluster mass, and core radius, as detailed in Table~\ref{table:runs}. We targeted an end time of $3 \Myr$ for each cluster to reach the end of life for the most massive stars in the cluster. Because of the computational difficulty of simulating collisional clusters with many bodies, not all of the runs made it to completion. Figure~\ref{fig:JobProgress} shows the suite of runs and their end times, as well as the size of their final central masses. As many simulations only make it to $\sim 0.1 - 0.5 \Myr$ before they become too difficult to simulate, comparing the results of different clusters requires normalizing for time. However, we can still make a guess as to whether a runaway should occur, even if determing the mass of the star at $t_{\mathrm{final}}$ is difficult. To do this, we suppose that the early stages of massive star growth can be modeled as an exponential such that
+\textbf{What clusters had runaway central masses?}
+We performed simulations of 24 clusters sampling the parameter space of concentration, cluster mass, and core radius. We targeted an end time of $3 \Myr$ for each cluster to reach the end of life for the most massive stars in the cluster. Because of the computational difficulty of simulating collisional clusters with many bodies, not all of the runs made it to completion. Figure~\ref{fig:JobProgress} shows the suite of runs and their end times, as well as the size of their final central masses. As many simulations only make it to $\sim 0.1 - 0.5 \Myr$ before they become too difficult to simulate, comparing the results of different clusters requires normalizing for time.  However, we can still make a guess as to whether a runaway should occur, even if determining the exact mass of the runaway is difficult. To do this, we suppose that the early stages of cluster growth can be modeled as an exponential such that
 \begin{equation}
     M_{\mathrm{max}}(t) = M_{0} e^{(Kt)}.
     \label{eqn:expcluster}
@@ -407,23 +331,7 @@ We can solve for $K$ at the end of a given run by isolating it from equation~\re
 \begin{equation}
 K = \frac{\ln M_{\mathrm{max}}(t_{\mathrm{end}}) - \ln M_{0}}{t_{\mathrm{end}}}
 \end{equation}
-We can then use $K$ to make an estimate for the central mass size as a fraction of the cluster at $t = 3 \Myr$.  If the projected final mass fraction is large, we suggest the cluster is a candidate to have a runaway central mass. Figure~\ref{fig:Kplot} shows each run plotted with its projected final mass fraction.  
-
-Some of our runs contain central masses that reach $> 1\%$ of the total cluster mass on timescales of only $\sim 0.1 \Myr$.  Figure~\ref{fig:MaxMass2-200-1.5} shows the growth of one such case. The central mass reaches over $2700 \Msun$ by $t = 0.3 \Myr$, or about $1.3 \%$ of the cluster mass in $10\%$ of the limiting time. The growth rate starts off superexponential as the stars initially come into contact, and the massive star continues to attract collisions throughout the run.  Compared to the results of \citet{2004SPZ}, our collisional clusters tend to have more massive runaways more quickly, as even their most massive runaway stars reach $2500 \msun$ at about $t = 3 \Myr$.
-
-\begin{figure}
-\centering
-\includegraphics[width=\textwidth]{MaxMassTime2-200-15}
-\caption{The }
-\label{fig:MaxMass2-200-1.5}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[width=\textwidth]{MaxMassTime-2-600-58}
-\caption{placeholder}
-\label{fig:MaxMass2-600-5.8}
-\end{figure}
+We can then use $K$ to make an estimate for the mass fraction of the cluster at $t = 3 \Myr$.  If the projected final mass fraction is large, we suggest the cluster is a candidate to have a runaway central mass. Figure~\ref{fig:Kplot} shows each run plotted with its projected final mass fraction.  We cap this fraction at $1$.
 
 \textbf{What fraction of the total cluster mass did the runaway achieve?  How long didit take?}
 
@@ -432,8 +340,6 @@ Some of our runs contain central masses that reach $> 1\%$ of the total cluster 
 \textbf{Any clusters that were too expensive to simulate or didn't work for some other reason?}
 
 \textbf{What other observed phenomena?  Did any/all clusters experience mass loss?  What happened with core radius?  Was core collapse correlated with larger central mass?}
-
-All clusters had some mass loss, primarily because of escapers. The total number of particles in the system decreases with escapers and mergers, and the decrease in particle number appears to be commensurate with mass loss, suggesting that there's not a big difference between the masses of ejected and retained particles. Some clusters lose large portions of their mass
 
 
 
