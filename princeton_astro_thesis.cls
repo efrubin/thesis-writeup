@@ -72,7 +72,7 @@
   \@author \\[\stretch{1}] %
   \@submissiontext \\[\stretch{1}] %
   \@acceptancetext \\[\stretch{1}] %
-  Adviser: \@adviser \\[\stretch{1}] %
+  Advisor: \@adviser \\[\stretch{1}] %
   \@date \\
 }}
 
