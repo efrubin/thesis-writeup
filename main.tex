@@ -114,7 +114,7 @@ and grow primarily by accreting gas from their surroundings at rates probably fa
 to become the observed billion solar mass SMBHs powering the quasars at $z>6$.
 Occasionally, mergers of galaxies may also help somewhat grow the SMBHs.
 
-In chapter~\ref{ch:Model} we discuss the parameter space of our study and 
+In chapter~\ref{ch:Model} we discuss the parameter space of our study and its correspondence to observation.  In chapter~\ref{ch:Methods}, we detail the numerical methods involved, our verification scheme, and our attempts to improve code performance. Chapter~\ref{ch:Results} presents the results of our simulations, and finally chapter~\ref{ch:Conclusion} offers concluding remarks.
 
 \chapter{Parameter Space of Globular Clusters}
 \label{ch:Model}
@@ -180,7 +180,7 @@ The density $\rho$ is given by the integral of $f(r,v)$ over $v$, that is
 \end{equation}
 Letting $W = -2j^2V$ and $\eta = j^2v^2$, and integrating by parts we can rewrite the density in terms of $W$ as
 \begin{equation}
-\rho = \frac{4}{3}\pi k j^-3 \exp(W-W_{0}) \int_{0}^{W} e^{-\eta} \eta^\frac{3}{2} \mathrm{d}\eta.
+\rho = \frac{4}{3}\pi k j^{-3} \exp(W-W_{0}) \int_{0}^{W} e^{-\eta} \eta^\frac{3}{2} \mathrm{d}\eta.
 \end{equation}
 Using Poisson's equation, we can relate the density to the potential
 \begin{equation}
@@ -218,7 +218,7 @@ $2.5$ & $0.590$ \\
 $3.0$ & $0.672$
 \end{tabular}
 \end{center}
-\caption{This table shows the corresponding values of $c$ for each value of $W_{0}$ we use in our simulations. We obtain them by numerically solving equation~\ref{eqn:kingqn} with \texttt{McLuster}.}
+\caption{This table shows the corresponding values of $c$ for each value of $W_{0}$ we use in our simulations. We obtain them by numerically solving equation~\ref{eqn:kingqn} with the \texttt{McLuster} software of \citet{2011Kupper}.}
 \label{tbl:ctable}
 \end{table}
 
@@ -232,9 +232,7 @@ our sight to have integrated into larger stellar systems that are no longer reco
 Observationally, the GCs and ultra compact dwarf galaxies (UCDs), which are essentially more massive cousins
 of GCs observed beyond the Local Group, span a mass range of $10^5-10^{8.5}\msun$.  
 Well known GCs 47 Tuc and $\omega$~Cen have $c=2.03$ and $1.30$ \citep[][]{2000Carraro}, respectively,
-falling in the overall range of $c\sim 1-3$ \citep[e.g.,][]{2007Evstigneeva}. In our simulation, we consider clusters with shallower potential wells, and correspondingly lower values of $c$.  Using higher values of $c$ would generate clusters with more physical fidelity, and is recommended for future study.
-The parameter $t_{DF}$ is a function of GC mass $M$, half-mass radius $R$ and the mass of the star in question $<m>$
-
+falling in the overall range of $c\sim 1-3$ \citep[e.g.,][]{2007Evstigneeva}. Although our initial value of $c$ is below this range, we adjust it for the rapid core collapse at the beginning of our simulations. The adjusted $c$ value is in the observational range, but future work should consider probing higher values of $c$ as well. 
 
 \chapter{Simulation Methods} \label{ch:Methods}
 
@@ -387,7 +385,7 @@ We were unable to get \nbody's internal restart module to function in our enviro
 \begin{sidewaysfigure}[ht]
     \centering
     \includegraphics{JobProgress}
-    \caption{Not all jobs ran to completion. }
+    \caption{Not all jobs ran to completion. Integrator performance seemed to struggle most when the central star had many neighbors.  Clusters with more significant mass loss tended to progress more quickly, as many of the stars were ejected leading to quadratic gains.  Some runs were halted because of as-yet undiagnosed code errors in \nbody.}
     \label{fig:JobProgress}
 \end{sidewaysfigure}
 
@@ -398,47 +396,61 @@ We were unable to get \nbody's internal restart module to function in our enviro
     \label{fig:Kplot}
 \end{figure}
 
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{SPZRunaways}
+\caption{This figure, reproduced from \citet{2004SPZ}, shows the range of clusters from their study that produce runaway stars.  Both the concentration and dynamical time are important.  In their study, clusters with lower concentration still had stars with some collisions but were limited to a few hundred solar masses.}
+\label{fig:spzrunaway}
+\end{figure}
+
 \begin{table}
 \begin{center}
 \resizebox{0.8\columnwidth}{!}{%
     \begin{tabular}{l l l l l l l }
     \hline \hline \\
-    Run & $W_{0}$ & $M_{\mathrm{cluster},0}$ & $R_{\mathrm{half}}$ & $t_{\mathrm{df}}$ & $t_{\mathrm{end}}$ & $M_{\mathrm{central, end}}$ \\
+    Run & $c_{\mathrm{adj}}$ & $M_{\mathrm{cluster},0}$ & $R_{\mathrm{half, adj}}$ & $t_{\mathrm{df, adj}}$ & $t_{\mathrm{end}}$ & $M_{\mathrm{central, end}}$ \\
     (units) & - & $\msun$ & $\pc$ & $\Myr$ & $\Myr$ & $\Msun$ \\
     \hline
-\sc{run64k-w2-m200-r1.5-2} & 2 & 2.0e+05 & 0.75 & 1.54 & 0.01 & 268.5 \\
-        \sc{run64k-w3-m600-r1.5} & 3 & 6.0e+05 & 0.75 & 2.22 & 0.01 & 829.9 \\
-        \sc{run64k-w2-m200-r1.5-3} & 2 & 2.0e+05 & 0.75 & 1.54 & 0.04 & 703.2 \\
-        \sc{run64k-w3-m600-r2.9} & 3 & 6.0e+05 & 1.45 & 5.98 & 0.05 & 183.0 \\
-        \sc{run64k-w3-m2000-r2.9} & 3 & 2.0e+06 & 1.45 & 9.20 & 0.06 & 1021.0 \\
-        \sc{run64k-w2.5-m200-r1.5} & 2.5 & 2.0e+05 & 0.75 & 1.54 & 0.11 & 916.6 \\
-        \sc{run64k-w1.5-m200-r1.5} & 1.5 & 2.0e+05 & 0.75 & 1.54 & 0.15 & 2598.7 \\
-        \sc{run64k-w2-m200-r1.5} & 2 & 2.0e+05 & 0.75 & 1.54 & 0.32 & 2770.8 \\
-        \sc{run64k-w3-m200-r1.5} & 3 & 2.0e+05 & 0.75 & 1.54 & 0.38 & 429.7 \\
-        \sc{run64k-w2.5-m600-r2.9} & 2.5 & 6.0e+05 & 1.45 & 5.98 & 0.51 & 163.8 \\
-        \sc{run64k-w2-m600-r2.9} & 2 & 6.0e+05 & 1.45 & 5.98 & 0.79 & 814.7 \\
-        \sc{run64k-w1.5-m200-r2.9} & 1.5 & 2.0e+05 & 1.45 & 4.15 & 0.82 & 1002.1 \\
-        \sc{run64k-w2.5-m200-r2.9} & 2.5 & 2.0e+05 & 1.45 & 4.15 & 0.96 & 151.5 \\
-        \sc{run64k-w2-m2000-r5.8} & 2 & 2.0e+06 & 2.9 & 26.03 & 1.14 & 2370.8 \\
-        \sc{run64k-w1-m200-r2.9} & 1 & 2.0e+05 & 1.45 & 4.15 & 1.20 & 1082.9 \\
-        \sc{run64k-w2-m200-r2.9-3} & 2 & 2.0e+05 & 1.45 & 4.15 & 1.26 & 1398.2 \\
-        \sc{run64k-w2-m200-r2.9-2} & 2 & 2.0e+05 & 1.45 & 4.15 & 2.96 & 308.0 \\
-        \sc{run64k-w2.5-m200-r5.8} & 2.5 & 2.0e+05 & 2.9 & 11.75 & 3.00 & 121.1 \\
-        \sc{run64k-w1-m200-r5.8} & 1 & 2.0e+05 & 2.9 & 11.75 & 3.92 & 844.5 \\
-        \sc{run64k-w2.5-m600-r5.8} & 2.5 & 6.0e+05 & 2.9 & 16.90 & 4.27 & 315.8 \\
-        \sc{run64k-w1.5-m600-r5.8} & 1.5 & 6.0e+05 & 2.9 & 16.90 & 4.35 & 1320.9 \\
-        \sc{run64k-w2-m600-r5.8} & 2 & 6.0e+05 & 2.9 & 16.90 & 5.48 & 3204.3 \\
-        \sc{run64k-w3-m200-r2.9} & 3 & 2.0e+05 & 1.45 & 4.15 & 5.98 & 941.0 \\
-        \sc{run64k-w1.5-m200-r5.8} & 1.5 & 2.0e+05 & 2.9 & 11.75 & 8.68 &  12.8 \\
+\sc{run64k-w2-m200-r1.5-2} & 1.81 & 2.0e+05 & 0.75 & 1.54 & 0.01 & 268.5 \\
+\sc{run64k-w3-m600-r1.5} & 1.94 & 6.0e+05 & 0.75 & 2.22 & 0.01 & 829.9 \\
+\sc{run64k-w2-m200-r1.5-3} & 1.78 & 2.0e+05 & 0.75 & 1.54 & 0.04 & 703.2 \\
+\sc{run64k-w3-m600-r2.9} & 2.85 & 6.0e+05 & 1.45 & 5.98 & 0.05 & 183.0 \\
+\sc{run64k-w3-m2000-r2.9} & 1.94 & 2.0e+06 & 1.45 & 9.20 & 0.06 & 1021.0 \\
+\sc{run64k-w2.5-m200-r1.5} & 1.37 & 2.0e+05 & 0.75 & 1.54 & 0.11 & 916.6 \\
+\sc{run64k-w1.5-m200-r1.5} & 2.08 & 2.0e+05 & 0.75 & 1.54 & 0.15 & 2598.7 \\
+\sc{run64k-w2-m200-r1.5} & 2.04 & 2.0e+05 & 0.75 & 1.54 & 0.32 & 2770.8 \\
+\sc{run64k-w3-m200-r1.5} & 1.92 & 2.0e+05 & 0.75 & 1.54 & 0.38 & 429.7 \\
+\sc{run64k-w2.5-m600-r2.9} & 1.79 & 6.0e+05 & 1.45 & 5.98 & 0.51 & 163.8 \\
+\sc{run64k-w2-m600-r2.9} & 2.37 & 6.0e+05 & 1.45 & 5.98 & 0.79 & 814.7 \\
+\sc{run64k-w1.5-m200-r2.9} & 1.65 & 2.0e+05 & 1.45 & 4.15 & 0.82 & 1002.1 \\
+\sc{run64k-w2.5-m200-r2.9} & 1.87 & 2.0e+05 & 1.45 & 4.15 & 0.96 & 151.5 \\
+\sc{run64k-w2-m2000-r5.8} & 2.46 & 2.0e+06 & 2.9 & 26.03 & 1.14 & 2370.8 \\
+\sc{run64k-w1-m200-r2.9} & 2.31 & 2.0e+05 & 1.45 & 4.15 & 1.20 & 1082.9 \\
+\sc{run64k-w2-m200-r2.9-3} & 1.60 & 2.0e+05 & 1.45 & 4.15 & 1.26 & 1398.2 \\
+\sc{run64k-w2-m200-r2.9-2} & 1.70 & 2.0e+05 & 1.45 & 4.15 & 2.96 & 308.0 \\
+\sc{run64k-w2.5-m200-r5.8} & 1.80 & 2.0e+05 & 2.9 & 11.75 & 3.00 & 121.1 \\
+\sc{run64k-w1-m200-r5.8} & 2.09 & 2.0e+05 & 2.9 & 11.75 & 3.92 & 844.5 \\
+\sc{run64k-w2.5-m600-r5.8} & 2.05 & 6.0e+05 & 2.9 & 16.90 & 4.27 & 315.8 \\
+\sc{run64k-w1.5-m600-r5.8} & 1.87 & 6.0e+05 & 2.9 & 16.90 & 4.35 & 1320.9 \\
+\sc{run64k-w2-m600-r5.8} & 1.98 & 6.0e+05 & 2.9 & 16.90 & 5.48 & 3204.3 \\
+\sc{run64k-w3-m200-r2.9} & 1.71 & 2.0e+05 & 1.45 & 4.15 & 5.98 & 941.0 \\
+\sc{run64k-w1.5-m200-r5.8} & -0.18 & 2.0e+05 & 2.9 & 11.75 & 8.68 &  12.8 \\    
         \end{tabular}%
         }
-    \caption{Table of each full run (64k bodies), where $W_{0}$ is the King potential,  $M_{\mathrm{cluster},0}$ is the initial cluster total mass,  $R_{\mathrm{half}}$ is the initial half-mass radius,  $t_{\mathrm{df}}$ is the dynamical friction time, $t_{\mathrm{end}}$ is the simulation end time, and  $M_{\mathrm{central, end}}$ is the ending central mass size.}
-    \label{table:runs}
+    \caption{Table of each full run (64k bodies), where $c$ is the concentration,  $M_{\mathrm{cluster},0}$ is the initial cluster total mass,  $R_{\mathrm{half}}$ is the initial half-mass radius,  $t_{\mathrm{df}}$ is the dynamical friction time, $t_{\mathrm{end}}$ is the simulation end time, and  $M_{\mathrm{central, end}}$ is the ending central mass size. \textsc{run64k-w1.5-m200-r5.8} shows a negative value for $c_\mathrm{adj}$ because our correction did not account for an increase in the edge radius.}
+    \label{tbl:runs}
 \end{center}
 \end{table}
+\section{Parameter Corrections}
+Some aspects of our run parameters surprised us.  Each run began with almost zero kinetic energy, and so rapidly underwent collapse into a more stable configuration.  In order to reach virial equilibrium, the cluster half-mass radius drops by approximately a factor of two.  We also measured the change in the cluster core radius to get the adjusted concentration, given by the following equation:
+\begin{equation}
+c_{\mathrm{adj}} = c + \log_{10} \frac{r_{\mathrm{core},0}}{r_{\mathrm{core, collapse}}}.
+\label{eqn:cadj}
+\end{equation}
+This led to an increase in concentration of between $1$ and $2$ per run, for most runs. This estimate for the adjusted concentration is likely conservative, because it assumes the edge radius of the cluster does not change.  If the edge radius also increases, the adjusted concentration would be higher. We also adjust $t_{\mathrm{df}}$ by a factor of $1/\sqrt{8}$ to account for the decrease in half-mass radius. Both Table~\ref{tbl:runs} and the figures in this section use the adjusted values for $c$ and $t_{\mathrm{df}}$. With this adjustment, our parameter space is comparable to both observed clusters and the work of \citet{2004SPZ}.
 
 \section{Determining Runaway Candidates}
-We performed simulations of 24 clusters sampling the parameter space of concentration, cluster mass, and core radius, as detailed in Table~\ref{table:runs}. We targeted an end time of $3 \Myr$ for each cluster to reach the end of life for the most massive stars in the cluster. Because of the computational difficulty of simulating collisional clusters with many bodies, not all of the runs made it to completion. Figure~\ref{fig:JobProgress} shows the suite of runs and their end times, as well as the size of their final central masses. As many simulations only make it to $\sim 0.1 - 0.5 \Myr$ before they become too difficult to simulate, comparing the results of different clusters requires normalizing for time. However, we can still make a guess as to whether a runaway should occur, even if determing the mass of the star at $t_{\mathrm{final}}$ is difficult. To do this, we suppose that the early stages of massive star growth can be modeled as an exponential such that
+We performed simulations of 24 clusters sampling the parameter space of concentration, cluster mass, and core radius, as detailed in Table~\ref{table:runs}. We targeted an end time of $3 \Myr$ for each cluster to reach the end of life for the most massive stars in the cluster. Because of the computational difficulty of simulating collisional clusters with many bodies, not all of the runs made it to completion. Figure~\ref{fig:JobProgress} shows the suite of runs and their end times, as well as the size of their final central masses. As many simulations only make it to $\sim 0.1 - 0.5 \Myr$ before they become too difficult to simulate, comparing the results of different clusters requires normalizing for time. However, we can still make a guess as to whether a runaway should occur, even if projecting the mass of the star to $3 \Myr$ is difficult. To do this, we suppose that the early stages of massive star growth can be modeled as an exponential such that
 \begin{equation}
     M_{\mathrm{max}}(t) = M_{0} e^{(Kt)}.
     \label{eqn:expcluster}
@@ -458,16 +470,16 @@ Some of our runs contain central masses that reach $> 1\%$ of the total cluster 
      \subfloat[Growth of the collision runaway star vs. time reproduced from \citet{2004SPZ}.]{{\includegraphics[width = 0.8\textwidth]{SPZGrowth}}}%
     \qquad   
     \subfloat[Growth of the collision runaway star vs. time from our experiments.]{{\includegraphics[width = 0.8\textwidth]{allgrowth}}}%
-    \caption{Here we compare the }
+    \caption{Here we compare the growth of collision runaways from }
     \label{fig:CompareGrowth}
 \end{figure}
-Although our simulations do not run for as long, they do achieve comparable central masses in a fraction of the time.  The chief difference between our simulations is in the range of $W_{0}$ explored, as both our $200 \times 10^5 \msun $ and $600 \times 10^5 \msun$ experiments are comparable to the $300 \times 10^5 \msun$ used in their simulations.  In general, this is more optimistic for the formation of massive stars, but as the lower values for $W_{0}$ do lead to shallower clusters than are commonly observed, that may account for much of the optimism. 
+Although our simulations do not run for as long, they do achieve comparable central masses in a fraction of the time.  Assessing the differences, both our $200 \times 10^5 \msun $ and $600 \times 10^5 \msun$ experiments are comparable to the $300 \times 10^5 \msun$ used in their simulations. Our $2 \times 10^6 \msun$ clusters are larger than the ones in their simulations.  The adjusted concentrations and dynamical friction times are in similar ranges, so it's possible that the main change is in the underlying distribution after the initial collapse to virial stability.  It's also possible that we've more significantly undercounted the true concentration. If the edge radius in fact increases by a factor of 5-10, this could add an additional 0.7-1 to the adjusted concentration.  On the high end of the scale, this would take our clusters beyond the range probed by \citet{2004SPZ}.
 
-Figure~\ref{fig:Kplot} shows that while in general a lower dynamical friction time corresponds to greater runaway mass, the total cluster mass has an effect as well. We see that \textsc{run64k-w2-m2000-r5.8}, which has the greatest $t_{\mathrm{df}}$ at  has a central mass of $2400 \Msun$ at $t = 1 \Myr$, so there is some potential to reach a mass of $\sim 10^4 \Msun$ by $3-4 \Myr$.  This run does use a shallow concentration parameter of $c \approx 0.5$, but all the runs with nearby values of $t_{\mathrm{df}}$ and smaller cluster masses do not exhibit runaways.  The remaining runaways appear at only substantially smaller $t_{\mathrm{df}}$ values of $< 10 \Myr$.
+Figure~\ref{fig:Kplot} shows that while in general higher concentration and lower dynamical friction time corresponds to runaway mass, the total cluster mass has an effect as well. We see that \textsc{run64k-w2-m2000-r5.8}, which has the greatest $t_{\mathrm{df}}$ at  has a central mass of $2400 \Msun$ at $t = 1 \Myr$, so there is some potential to reach a mass of $\sim 10^4 \Msun$ by $3-4 \Myr$.  This run does use a shallow concentration parameter of $c \approx 0.5$, but all the runs with nearby values of $t_{\mathrm{df}}$ and smaller cluster masses do not exhibit runaways.  The remaining runaways appear at only substantially smaller $t_{\mathrm{df}}$ values of $< 10 \Myr$.
 
 Another factor that may influence the comparison between our work and that of \citet{2004SPZ} is the total number of bodies. They have a similar cluster mass on the order of $10^{5} \Msun$, but extend the lower bound of their initial mass function to $0.08 \Msun$.  Most of their simulations are performed with 128k stars, with some performed with 585k stars.  It's possible that a greater number density of stars could lead to more collisions, even if most of the stars are less massive, because the impact parameter of the high-mass stars would remain the same. If the number density is higher overall, this would allow for more chances for high-mass stars to capture additional mass.
 
-We also suspect there is some sensitivity to initial cluster configuration, even for clusters with the same parameters. Near boundaries in the parameter space, there is no guarantee of forming the first few collisions to kick off the process of massive star formation. Figure~\ref{fig:SameParamsMassTime}, shows that for our three runs with the same parameters but differential initial masses, positions, and velocities: \textsc{run64k-w2-m200-r2.9, run64k-w2-m200-r2.9-2} and \textsc{run64k-w2-m200-r2.9-3}, two formed massive stars above $10^3 \Msun$ and one did not.
+We also suspect there is some sensitivity to the instantiation of the initial distribution, even for clusters with the same parameters. Near boundaries in the parameter space, there is no guarantee of forming the first few collisions to kick off the process of massive star formation. Figure~\ref{fig:SameParamsMassTime}, shows that for our three runs with the same parameters but differential initial masses, positions, and velocities: \textsc{run64k-w2-m200-r2.9, run64k-w2-m200-r2.9-2} and \textsc{run64k-w2-m200-r2.9-3}, two formed massive stars above $10^3 \Msun$ and one did not.
 
 In general, collision counterparts were more massive stars above $\sim 30 \Msun$. The first two to three tended to be stars above $50 \Msun$, which appears to kickstart the collision process in general. In their study, \citet{2004SPZ} found the same trend, and it appears to persist throughout the life of the massive star. In our clusters with mass $2 \times 10^6$, which have stars with an initial maximum mass of $120 \Msun$, we see most collision counterparts are above $100 \Msun$.  If mass segregation occurs early in the life of the cluster, we might expect to see only massive stars near the central mass, which could also explain why most collision counterparts are the most massive stars initially.
 \begin{figure}
@@ -480,14 +492,14 @@ In general, collision counterparts were more massive stars above $\sim 30 \Msun$
 \begin{figure}
 \centering
 \includegraphics[width=\textwidth]{MaxMassTime2-200-15}
-\caption{This plot charts the growth of the runaway star from $100 \Msun$ to approximately $2700 \Msun$ in a cluster with a half mass radius of 0.75 pc, a concentration parameter of 0.4, and a total mass of $200 \times 10^5 \Msun$. Bumps in the curve are the result of multiples where the smaller member escapes instead of merging. Collisions continued until the end of the simulation.}
+\caption{This plot charts the growth of the runaway star from $100 \Msun$ to approximately $2700 \Msun$ in a cluster with a half mass radius of 0.75 pc, a concentration parameter of 0.4, and a total mass of $200 \times 10^5 \Msun$. Bumps in the curve are the result of multiples where the smaller member escapes instead of merging. Collisions continue until the end of the simulation.}
 \label{fig:MaxMass2-200-1.5}
 \end{figure}
 
 \begin{figure}
 \centering
 \includegraphics[width=\textwidth]{MaxMassTime-2-600-58}
-\caption{placeholder}
+\caption{The central star in this plot grows more slowly and at rates commensurate with those in \citet{2004SPZ}.  However, it appears that the star is still colliding at the end of the run instead of reaching a steady state. This cluster has a $t_{\mathrm{df}}$ of $\sim 15 \Myr$.}
 \label{fig:MaxMass2-600-5.8}
 \end{figure}
 
@@ -495,8 +507,7 @@ All clusters had some mass loss, primarily because of escapers. The total number
 \begin{equation}
     t_{\mathrm{evap}} = \frac{M_{0}}{\left(\frac{\Delta M}{\Delta t}\right)}.
 \end{equation}
-Figure~\ref{fig:EvapKplot} shows the evaporation time plotted against the $e$-folding time $1/K$. Clusters with higher values of $K$ tend to have shorter evaporation times, but overall most are around $10 \Myr$.  Our choice of $W_{0}$ in the range of $0 - 3$ probably accounts for the relatively short evaporation times as the potential well is shallower than most clusters observed in nature.
-
+Figure~\ref{fig:EvapKplot} shows the evaporation time plotted against the $e$-folding time $1/K$. Clusters with higher values of $K$ tend to have shorter evaporation times, but overall most are around $10 \Myr$.  As long as the evaporation time is longer than the lifetime of the most massive stars in the cluster, we expect the latter will provide the main constraint on whether a SMS may form.
 \begin{figure}
 \centering
 \includegraphics[width=\textwidth]{kevap}
@@ -508,16 +519,15 @@ Figure~\ref{fig:EvapKplot} shows the evaporation time plotted against the $e$-fo
 Some of our clusters ended with maximum mass stars of only a few hundred solar masses. Such stars were generally formed by collisions of only a couple of the most massive stars in the cluster, but then appeared to run out of steam. Most of these clusters had higher dynamical friction times.  Consequently, we would expect to see fewer massive stars near the core, and it appears that the presence of the most massive stars is required to add enough mass to the runaway. 
 
 \chapter{Conclusions} \label{ch:Conclusions}
-In this work we examined one possible pathway for \ac{SMBH} formation. Although we faced challenges in simulation execution and have not yet probed the full parameter space of plausible clusters, we remain cautiously optimistic that repeated collisions can lead to runaway star growth.  Qualitatively, our results generally agree with previous experiments. Quantitatively, we see the potential for runaway star formation up to $10^4 \Msun$ well before the cluster should experience disruption from supernovae or tidal evaporation. As numerical methods, simulation software, and computing capacity improve, it should be possible to simulate clusters with $\sim 10^6$ stars for several million years which will provide more conclusive results.
+In this work we examined one possible pathway for \ac{SMBH} formation through ambituous simulations of highly collisional globular clusters. Though we broadly probe a range of parameters informed by observation, we recognize a challenge in observationally constraining the boundaries of the parameter space, as clusters most prone to forming SMSes via runaway would have done so already.
 
-Future investigators may also want to consider additional parameters. Variations in the initial mass function and maximum mass of the earliest stars could have implications for both the critical time limit and for the initial collisions that form runaway stars. Simulating clusters with the same bulk properties but different particle counts might also prove informative. Adding a galactic tidal force may also have implications for particle removal at the edges of clusters. Exploring a range of $W_{0}$ from approximately $6 - 15$ ($c$ from $1 - 4$), will offer better fidelity to observed clusters in the lower part of the range, and a more plausible space of clusters no longer present because of black hole formation in the upper part.
+Although we faced challenges in simulation execution and have not yet probed the full parameter space of plausible clusters, we remain cautiously optimistic that repeated collisions can lead to runaway star growth.  Qualitatively, our results generally agree with previous experiments. Quantitatively, we see the potential for runaway star formation up to $10^4 \Msun$ well before the cluster should experience disruption from supernovae or tidal evaporation. As numerical methods, simulation software, and computing capacity improve, it should be possible to simulate clusters with $\sim 10^6$ stars for several million years which will provide more conclusive results.
+
+One significant question mark left in our experiments is the rapid collapse to virial equilibrium from the initial position-only King profile.  Understanding whether the ensuing profile is really a plausible initial condition is likely to be important for assessing the physical viability of our results.  
+
+Future investigators may also want to consider additional parameters. Variations in the initial mass function and maximum mass of the earliest stars could have implications for both the critical time limit and for the initial collisions that form runaway stars. Simulating clusters with the same bulk properties but different particle counts might also prove informative. Adding a galactic tidal force may also have implications for particle removal at the edges of clusters. Exploring a range of $W_{0}$ from approximately $8 - 15$ ($c$ from $2 - 4$), will offer more exposure to the higher end of the range of observed clusters and somewhat beyond. We also performed our simulation without primordial binaries or primordial mass segregation, both of which would tend to increase the merger rate and chances of runaway.  The behavior of supermassive stars formed by many collisions may also prove a fruitful area of investigation.
 
 In addition to the work described in the rest of this paper, we have also made efforts to ensure our research is repeatable and extendable. We have made available our suite of scripts for configuring and performing experiments and analysis at \url{www.github.com/efrubin/thesis-scripts}, and welcome contributions.
-
-
-
-
-
 
 
 \bibliographystyle{apj}
